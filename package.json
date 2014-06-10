@@ -6,7 +6,6 @@
     "start": "nodemon app.js"
   },
   "dependencies": {
-    "email-templates":"*",
     "express": "3.5.1",
     "jade": "*",
     "stylus": "*",
