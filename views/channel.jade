@@ -1,0 +1,156 @@
+extends layout
+block content
+  head
+    script(src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js")
+    script(src="http://code.jquery.com/ui/1.10.3/jquery-ui.js")
+    link(rel="stylesheet", href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css")
+    link(rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css")
+    link(rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css")
+    script(src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js")
+    script(src="//player.ooyala.com/v3/39613d9676524193ad8d0a59498e17c5")
+    meta(name='description', content='Ooyala Support')
+  script.
+      console.log!{d}; 
+        
+  body()
+    nav.navbar.navbar-default.navbar-inverse.navbar-fixed-top(role="navigation")
+
+      // Brand and toggle get grouped for better mobile display
+      .navbar-header
+        button(type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse")
+          span.sr-only Toggle navigation
+          span.icon-bar
+          span.icon-bar
+          span.icon-bar
+        if (orgId)
+          a.navbar-brand(href="create") CREATE A TICKET
+        else
+          a.navbar-brand(href="#" id="login" data-title="Ooyala Tickets" data-trigger="click" rel="popover" data-placement="bottom" data-content="You must first select your Organization. Please select Location below" data-original-tile="ticket") OOYALA SUPPORT
+        
+
+      // Collect the nav links for toggling
+      .collapse.navbar-collapse.navbar-ex1-collapse
+        ul.nav.navbar-nav.navbar-center
+          li.dropdown
+            a(href="#" class="dropdown-toggle" data-toggle="dropdown") Channels
+              b.caret
+            ul.dropdown-menu
+              li.active
+                a(href="channel") Channel AJ
+          li.dropdown
+            a(href="#" class="dropdown-toggle" data-toggle="dropdown") Label
+              b.caret
+            ul.dropdown-menu
+              li
+                a(href="select") Select the Label
+          li.dropdown
+            a(href="#" lass="dropdown-toggle" data-toggle="dropdown") Statistics
+              b.caret
+            ul.dropdown-menu
+              li
+                a(href="statistics") Video Statistics
+              li
+                a(href="index") Log Out
+        img#benbria.nav.navbar-nav.navbar-right(src="images/ooyala.png", hieght="100", width="100", alt="ooyala Logo")
+    .jumbotron
+      if (d) 
+        p #{d}
+      if (!d) 
+        h1.titre Welcome to Ooyala Support!
+        
+
+    .row
+      .col-md-8.col-md-offset-3
+        div(id='playerContainer' style='width:600px;height:400px')
+        div(id='status')
+      .col-md-1
+
+    #contact 
+      a.button(data-toggle="modal" href="#myModal") Contact Us
+
+    div(id="myModal" class="modal fade in")
+      .modal-dialog
+        .modal-content
+          .modal-header
+            .button.close(data-dismiss="modal" aria-hidden="true") X
+            .modal-title CONTACT US
+          .modal-body
+              a#tel(href='callto:613-271-5995') 613-271-5995
+              br
+              a#email(href='mailto:support@ooyala.com?Subject=Ooyala Support') support@ooyala.com
+          .modal-footer
+              button.btn.btn-primary(data-dismiss="modal" aria-hidden="true") Close
+
+    script.
+      var months = new Array(12);
+      months[0] = "January";
+      months[1] = "February";
+      months[2] = "March";
+      months[3] = "April";
+      months[4] = "May";
+      months[5] = "June";
+      months[6] = "July";
+      months[7] = "August";
+      months[8] = "September";
+      months[9] = "October";
+      months[10] = "November";
+      months[11] = "December";
+
+      
+      OO.ready(function() { 
+        console.log("AM I HERE?????");
+        var video = OO.Player.create('playerContainer', 'CHANNEL CONTENT ID', {
+          "enableChannels":true,
+          onCreate: function(player) {
+            player.mb.subscribe('*','myPage',function(eventName){
+            console.log(eventName);
+
+          //   var key = player.getItem()[Object.keys(player.getItem())[0]];
+          /*    if (val = localStorage[key]) {
+                player.setPlayheadTime(parseInt(val));
+              } */
+            // console.log("EVENT: "+eventName);
+              if (eventName == "contentTreeFetched") {
+                var key = player.getItem()[Object.keys(player.getItem())[0]];
+                
+                if (localStorage.getItem(key)) {
+                  console.log("SET THE TIME HERE: "+localStorage.getItem(key));
+                  console.log ("THE VIDEO TIME: "+player.getItem()[Object.keys(player.getItem())[3]]);
+                  if (Math.round(localStorage.getItem(key)) == Math.round(player.getItem()[Object.keys(player.getItem())[3]])) {
+                    localStorage.removeItem(key)
+                  } else {
+                    player.setPlayheadTime(localStorage.getItem(key));
+                  } 
+                }  
+              }
+
+              var show = ['playing', 'paused', 'buffering'];
+              if (show.indexOf(eventName) >= 0) {
+                var embedCode = player.getItem()[Object.keys(player.getItem())[0]];
+                var playHead = player.getPlayheadTime();
+                localStorage.setItem(embedCode, playHead);
+                var current_date = new Date();
+                current_date.setDate(current_date.getDate());
+                month_value = current_date.getMonth();
+                day_value = current_date.getDate();
+                year_value = current_date.getFullYear();
+                hour_value = current_date.getHours();
+                minute_value = current_date.getMinutes();
+                second_value = current_date.getSeconds();
+                $('#status').html(months[month_value] + " " + day_value + ", " + year_value + ' '+hour_value+':'+minute_value+':'+second_value+' Status: '+eventName);
+              }
+            });
+
+          }
+        });       
+      });
+
+
+     
+     
+        
+    
+    
+      
+    
+      

@@ -1,0 +1,100 @@
+extends layout
+block content
+  head
+    script(src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js")
+    script(src="http://code.jquery.com/ui/1.10.3/jquery-ui.js")
+    link(rel="stylesheet", href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css")
+    link(rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css")
+    link(el="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css")
+    script(src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js")
+    meta(name='description', content='Ooyala Support')
+  script.
+     // console.log!{d}; 
+        
+  body()
+    nav.navbar.navbar-default.navbar-inverse.navbar-fixed-top(role="navigation")
+
+      // Brand and toggle get grouped for better mobile display
+      .navbar-header
+        button(type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse")
+          span.sr-only Toggle navigation
+          span.icon-bar
+          span.icon-bar
+          span.icon-bar
+        if (orgId)
+          a.navbar-brand(href="create") CREATE A TICKET
+        else
+          a.navbar-brand(href="#" id="login" data-title="Ooyala Tickets" data-trigger="click" rel="popover" data-placement="bottom" data-content="You must first select your Organization. Please select Location below" data-original-tile="ticket") OOYALA SUPPORT
+        
+
+      // Collect the nav links for toggling
+      .collapse.navbar-collapse.navbar-ex1-collapse
+        ul.nav.navbar-nav.navbar-center
+          li.dropdown
+            a(href="#" class="dropdown-toggle" data-toggle="dropdown") Channels
+              b.caret
+            ul.dropdown-menu
+              li
+                a(href="channel") Channel AJ
+          li.dropdown
+            a(href="#" class="dropdown-toggle" data-toggle="dropdown") Label
+              b.caret
+            ul.dropdown-menu
+              li.active
+                a(href="select") Select the Label
+          li.dropdown
+            a(href="#" lass="dropdown-toggle" data-toggle="dropdown") Statistics
+              b.caret
+            ul.dropdown-menu
+              li
+                a(href="statistics") Video Statistics
+              li
+                a(href="index") Log Out
+        img#benbria.nav.navbar-nav.navbar-right(src="images/ooyala.png", hieght="100", width="100", alt="ooyala Logo")
+    .jumbotron
+      if (d) 
+        p #{d}
+      if (!d) 
+        h1.titre Welcome to Ooyala Support!
+        
+
+    .row
+      .col-md-8.col-md-offset-3
+        form(class="form-horizontal",action="label",method="get")
+          fieldset
+            legend Display the Labels
+            label Location &nbsp&nbsp
+            select(id="myList",name="id")
+              option(value="Label") Label
+              option(value="Player") Player
+              option(value="Mobile") Mobile
+              option(value="Desktop") Desktop
+              option(value="Videos") Top Videos
+            br
+            button.btn.btn-primary Submit
+      .col-md-1
+
+    #contact 
+      a.button(data-toggle="modal" href="#myModal") Contact Us
+
+    div(id="myModal" class="modal fade in")
+      .modal-dialog
+        .modal-content
+          .modal-header
+            .button.close(data-dismiss="modal" aria-hidden="true") X
+            .modal-title CONTACT US
+          .modal-body
+              a#tel(href='callto:613-271-5995') 613-271-5995
+              br
+              a#email(href='mailto:support@ooyala.com?Subject=Ooyala Support') support@ooyala.com
+          .modal-footer
+              button.btn.btn-primary(data-dismiss="modal" aria-hidden="true") Close
+
+  
+     
+        
+    
+    
+      
+    
+      
